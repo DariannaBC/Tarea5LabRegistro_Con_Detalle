@@ -10,23 +10,23 @@ namespace Tarea5LabRegistro_Con_Detalle.DAL
 {
     public class Contexto : DbContext
     {
-        public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Roles> Roles { get; set; }
-        public DbSet<Permisos> Permisos { get; set; }
+        public DbSet<Usuarios> Usuario { get; set; }
+        public DbSet<Permisos> Permiso { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data Source = DATA/datosUsuarios.Db");
-        } 
-
+            optionsBuilder.UseSqlite(@"data source = data\rolescontrol.db");
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Permisos>().HasData(
-                new Permisos() { PermisosId = 1, DescripcionPermisos = "Descuentos" },
-                new Permisos() { PermisosId = 2, DescripcionPermisos = "Vender" },
-                new Permisos() { PermisosId = 3, DescripcionPermisos = "Comprar" }
-            );
+                new Permisos { PermisosId = 1, Nombre = "Usuario", Descripcion = "Para usuarios" },
+                new Permisos { PermisosId = 2, Nombre = "Administrador", Descripcion = "Para administradores" });
+
         }
     }
 }
+

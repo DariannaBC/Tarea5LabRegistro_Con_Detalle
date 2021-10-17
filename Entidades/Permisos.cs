@@ -12,10 +12,14 @@ namespace Tarea5LabRegistro_Con_Detalle.Entidades
     {
         [Key]
         public int PermisosId { get; set; }
-        public string DescripcionPermisos { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
 
-        [ForeignKey("PermisosId")]
-
-        public virtual Permisos permiso { get; set; }
+        public Permisos()
+        {
+            PermisosId = 0;
+            Nombre = string.Empty;
+            Descripcion = string.Empty;
+        }
     }
 }
