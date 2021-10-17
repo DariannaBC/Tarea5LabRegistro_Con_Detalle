@@ -10,7 +10,7 @@ namespace Tarea5LabRegistro_Con_Detalle.Entidades
     public class Usuarios
     {
         [Key]
-        public int UsuarioID { get; set; }
+        public int UsuarioId { get; set; }
         public string Clave { get; set; }
         public string Nombres { get; set; }
         public string Email { get; set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,88 +12,81 @@ namespace Tarea5LabRegistro_Con_Detalle.BLL
 {
     public class UsuariosBLL
     {
-        public static bool Guardar(Usuarios usuario)
+        public static bool Guardar(Usuarios Usuario)
         {
-            if (!Existe(usuario.UsuarioID))
-                return Insertar(usuario);
+            if (!Existe(Usuario.UsuarioId))
+                return Insertar(Usuario);
             else
-                return Modificar(usuario);
+                return Modificar(Usuario);
         }
-
-        private static bool Insertar(Usuarios usuario)
+        private static bool Insertar(Usuarios Usuario)
         {
             bool paso = false;
-            Contexto contexto = new Contexto();
+            Contexto db = new Contexto();
             try
             {
-                contexto.Usuarios.Add(usuario);
-                paso = contexto.SaveChanges() > 0;
+                if (db.Usuarios.Add(Usuario) != null)
+                    paso = db.SaveChanges() > 0;
             }
             catch (Exception)
-            {
-                throw;
-            }
+            { throw; }
             finally
             {
-                contexto.Dispose();
+                db.Dispose();
             }
-
             return paso;
         }
 
-        public static bool Modificar(Usuarios usuario)
+        private static bool Modificar(Usuarios Usuario)
         {
             bool paso = false;
-            Contexto contexto = new Contexto();
+            Contexto db = new Contexto();
             try
             {
-                contexto.Entry(usuario).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                paso = contexto.SaveChanges() > 0;
+                db.Entry(Usuario).State = EntityState.Modified;
+                paso = db.SaveChanges() > 0;
             }
             catch (Exception)
-            {
-                throw;
-            }
+            { throw; }
             finally
             {
-                contexto.Dispose();
+                db.Dispose();
             }
-
             return paso;
         }
 
         public static bool Eliminar(int id)
         {
             bool paso = false;
-            Contexto contexto = new Contexto();
+            Contexto db = new Contexto();
             try
             {
-                var usuario = contexto.Usuarios.Find(id);
-                if (usuario != null)
+                Usuarios Usuario = db.Usuarios.Find(id);
+
+                if (Existe(id))
                 {
-                    contexto.Usuarios.Remove(usuario);
-                    paso = contexto.SaveChanges() > 0;
+                    db.Usuarios.Remove(Usuario);
+                    paso = db.SaveChanges() > 0;
                 }
+
             }
             catch (Exception)
-            {
-                throw;
-            }
+            { throw; }
             finally
             {
-                contexto.Dispose();
+                db.Dispose();
             }
-
             return paso;
         }
 
         public static Usuarios Buscar(int id)
         {
-            Contexto contexto = new Contexto();
-            Usuarios usuario;
+            Contexto db = new Contexto();
+            Usuarios Usuario = new Usuarios();
             try
             {
-                usuario = contexto.Usuarios.Find(id);
+                Usuario = db.Usuarios.Find(id);
+
             }
             catch (Exception)
             {
@@ -100,19 +94,37 @@ namespace Tarea5LabRegistro_Con_Detalle.BLL
             }
             finally
             {
-                contexto.Dispose();
+                db.Dispose();
             }
-
-            return usuario;
+            return Usuario;
         }
 
-        public static bool Existe(int id)
+        public static List<Usuarios> GetList(Expression<Func<Usuarios, bool>> expression)
         {
-            Contexto contexto = new Contexto();
+            List<Usuarios> Usuario = new List<Usuarios>();
+            Contexto db = new Contexto();
+            try
+            {
+                Usuario = db.Usuarios.Where(expression).ToList();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return Usuario;
+        }
+        private static bool Existe(int id)
+        {
             bool encontrado = false;
+            Contexto db = new Contexto();
             try
             {
-                encontrado = contexto.Usuarios.Any(e => e.UsuarioID == id);
+                encontrado = db.Usuarios.Any(x => x.UsuarioId == id);
             }
             catch (Exception)
             {
@@ -120,51 +132,9 @@ namespace Tarea5LabRegistro_Con_Detalle.BLL
             }
             finally
             {
-                contexto.Dispose();
+                db.Dispose();
             }
-
             return encontrado;
-        }
-
-        public static bool ExisteAlias(string buscaralias)
-        {
-            Contexto contexto = new Contexto();
-            bool encontrado = false;
-            try
-            {
-                encontrado = contexto.Usuarios.Any(e => e.Alias == buscaralias);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
-
-            return encontrado;
-        }
-
-        public static List<Usuarios> GetList(Expression<Func<Usuarios, bool>> criterio)
-        {
-            List<Usuarios> lista = new List<Usuarios>();
-            Contexto contexto = new Contexto();
-            try
-            {
-                lista = contexto.Usuarios.Where(criterio).ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
-
-            return lista;
         }
     }
 }
-

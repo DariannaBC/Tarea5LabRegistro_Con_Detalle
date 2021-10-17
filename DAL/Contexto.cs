@@ -16,16 +16,16 @@ namespace Tarea5LabRegistro_Con_Detalle.DAL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(@"Data Source = DATA/datosUsuarios.Db");
-        }
+        } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Permisos>().HasData(
-                new Permisos() { PermisosId = 1, DescripcionPermisos = "Descuento" },
-                new Permisos() { PermisosId = 2, DescripcionPermisos = "Vende" },
-                new Permisos() { PermisosId = 3, DescripcionPermisos = "Compra" }
+                new Permisos() { PermisosId = 1, DescripcionPermisos = "Descuentos" },
+                new Permisos() { PermisosId = 2, DescripcionPermisos = "Vender" },
+                new Permisos() { PermisosId = 3, DescripcionPermisos = "Comprar" }
             );
         }
     }

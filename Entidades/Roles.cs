@@ -11,7 +11,7 @@ namespace Tarea5LabRegistro_Con_Detalle.Entidades
     public class Roles
     {
         [Key]
-        public int RolID { get; set; }
+        public int RolId { get; set; }
         public string DescripcionRol { get; set; }
         public bool EsActivo { get; set; }
 
@@ -20,7 +20,7 @@ namespace Tarea5LabRegistro_Con_Detalle.Entidades
 
         public Roles()
         {
-            RolID = 0;
+            RolId = 0;
             DescripcionRol = string.Empty;
             EsActivo = false;
 

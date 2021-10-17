@@ -11,14 +11,14 @@ namespace Tarea5LabRegistro_Con_Detalle.Entidades
     {
         [Key]
         public int Id { get; set; }
-        public int RolID { get; set; }
+        public int RolId { get; set; }
         public int PermisosId { get; set; }
         public bool EsAsignado { get; set; }
 
         public RolesDetalle()
         {
             Id = 0;
-            RolID = 0;
+            RolId = 0;
             PermisosId = 0;
             EsAsignado = false;
         }
@@ -26,7 +26,7 @@ namespace Tarea5LabRegistro_Con_Detalle.Entidades
         public RolesDetalle(int id, int rolid, int permisoid, bool asigned)
         {
             Id = id;
-            RolID = rolid;
+            RolId = rolid;
             PermisosId = permisoid;
             EsAsignado = asigned;
         }
